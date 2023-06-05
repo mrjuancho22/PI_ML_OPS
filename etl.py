@@ -3,7 +3,7 @@
 import pandas as pd
 
 # Creando un dataframe con la informacion del archivo movies_dataset.csv
-df = pd.read_csv('movies_dataset.csv',sep=',',low_memory=False)
+df = pd.read_csv('datasets/movies_dataset.csv',sep=',',low_memory=False)
 
 # Rellenando con 0 los valores nulos de las columnas revenue, budget
 valores_a_rellenar = {'revenue':0,'budget':0}
@@ -32,5 +32,5 @@ df['return'].replace([float('inf'), float('-inf')],0,inplace=True)
 #'video','imdb_id','adult','original_title','vote_count','poster_path','homepage'
 df.drop(['video','imdb_id','adult','original_title','vote_count','poster_path','homepage'],axis=1,inplace=True)
 
-# Se guarda el dataframe con el nombre de Clean_movies_dataset
-df.to_csv('Clean_movies_dataset.csv')
+# Se guarda el dataframe con el nombre de clean_movies_dataset
+df.to_csv('datasets/clean_movies_dataset.csv')
