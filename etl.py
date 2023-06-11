@@ -30,7 +30,7 @@ df['return'].replace([float('inf'), float('-inf')],0,inplace=True)
 
 # Eliminando las columnas
 #'video','imdb_id','adult','original_title','vote_count','poster_path','homepage'
-df.drop(['video','imdb_id','adult','original_title','vote_count','poster_path','homepage'],axis=1,inplace=True)
+df.drop(['video','imdb_id','adult','original_title','poster_path','homepage'],axis=1,inplace=True)
 
 # Se guarda el dataframe con el nombre de clean_movies_dataset
-df.to_csv('datasets/clean_movies_dataset.csv')
+df.to_csv('datasets/clean_movies_dataset.csv', index= False)

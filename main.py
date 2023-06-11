@@ -28,27 +28,17 @@ def score_titulo(titulo_de_la_filmacion: str):
 
 
 @app.get("/votos_titulo/{titulo_de_la_filmacion}")
-def votos_titulo(titulo_de_la_filmacion : str):
-
+def votos_titulo(titulo_de_la_filmacion: str):
     return None
 
 
 
-@app.get("/productoras/{productora}")
-def productoras(productora: str):
-
+@app.get("/get_actor/{nombre_actor}")
+def get_actor(nombre_actor: str):
     return None
 
 
 
-@app.get("/retorno/{pelicula}")
-def retorno(pelicula : str):
-
-    return None
-
-
-
-@app.get("/recomendacion/{titulo}")
-def recomendacion(titulo:str):
-    
+@app.get("/get_director/{nombre_director}")
+def get_director(nombre_director : str):
     return None
