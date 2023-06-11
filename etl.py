@@ -1,6 +1,8 @@
 
 #Para este etl, se usará la librería pandas con el apodo de pd
 import pandas as pd
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 # Creando un dataframe con la informacion del archivo movies_dataset.csv
 df = pd.read_csv('datasets/movies_dataset.csv',sep=',',low_memory=False)
@@ -33,4 +35,7 @@ df['return'].replace([float('inf'), float('-inf')],0,inplace=True)
 df.drop(['video','imdb_id','adult','original_title','poster_path','homepage'],axis=1,inplace=True)
 
 # Se guarda el dataframe con el nombre de clean_movies_dataset
-df.to_csv('datasets/clean_movies_dataset.csv', index= False)
+table = pa.Table.from_pandas(df)
+pq.write_table(table, 'datasets/clean_movies_dataset.parquet')
+
+
