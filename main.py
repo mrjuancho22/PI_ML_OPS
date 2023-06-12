@@ -112,4 +112,4 @@ def get_director(nombre_director:str):
 @app.get('/recomendacion/{titulo}')
 def recomendacion(titulo:str):
     '''Ingresas un nombre de pelicula y te recomienda las similares en una lista'''
-    return {'lista recomendada': respuesta}
+    return {'lista recomendada': 0}
