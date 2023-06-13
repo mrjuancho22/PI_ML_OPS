@@ -33,6 +33,10 @@ En este proyecto encontrarás:
 
     Documento hecho en python que contiene todo lo relacionado a la API
 
+- Documento requeriments:
+
+    Documento hecho en txt que contiene los requerimientos para que render pueda correr la API
+
 
 # Funciones de la API
 
@@ -118,4 +122,9 @@ Parámetros:
 Retorno:
 
     Recomendaciones: Lista de con 5 recomendaciones.
-    
+
+
+# Video
+
+Con este [link](www.youtube.com) podrás ver un video donde se muestra el funcionamiento de la API
+
