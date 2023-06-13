@@ -6,8 +6,8 @@ from sklearn.preprocessing import StandardScaler
 
 app = FastAPI()
 
-df_movies = pd.read_parquet('dataset/clean_movies_dataset.parquet')
-df_credits = pd.read_parquet('dataset/credits.parquet')
+df_movies = pd.read_parquet('datasets/clean_movies_dataset.parquet')
+df_credits = pd.read_parquet('datasets/credits.parquet')
 
 
 
