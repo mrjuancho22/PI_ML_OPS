@@ -153,12 +153,15 @@ def recomendacion(titulo:str):
     #se crea columnas de valores unicos con cada uno de los valores disponibles de la columna genres
     generos_df = df_b.genres.str.get_dummies(sep=',')
 
+    df_b.title = df_b.title.apply(lambda x: x.title())
+
     #Se crea una columna donde se almacena si los titulos del df son similares al ingresado, con 1 ( si contiene el titulo en su nombre) y con 0 ( si no contiene el titulo en su nombre)
     df_b['titulo_similar']= df_b.title.apply(lambda x: 1 if titulo in x else 0)
 
     #Se crea una columna donde se almacena si los titulos del df pertenecen a la misma coleccion que el ingresado,
     # con 1 ( si contiene el titulo en su nombre) y con 0 ( si no contiene el titulo en su nombre)
-    
+    df_b.belongs_to_collection = df_b.belongs_to_collection.apply(lambda x : x.title() if type(x) == str else x)
+
     if df_b.belongs_to_collection.loc[df_b.title == titulo].item() == None:
         coleccion = 'no pertenece a ninguna coleccion'
     else:
@@ -180,7 +183,7 @@ def recomendacion(titulo:str):
 
     # se sustraen los indices de los titulos mas cercanos al titulo ingresado
     indices = knn.kneighbors(parametros_entrenamiento.loc[df_b['title'] == titulo])[1].flatten()
-    
+
     #se hace una lista de los titulos recomendados por medio de sus indices
     recomendaciones = list(df_b.iloc[indices]['title'])
 
@@ -190,5 +193,5 @@ def recomendacion(titulo:str):
     # se retira de las recomendaciones el mismo titulo ingresado en la funcion
     recomendaciones = [pelicula for pelicula in recomendaciones if pelicula != titulo]
 
-    #se retorna la lista de recomendaciones
+        #se retorna la lista de recomendaciones
     return {'lista recomendada': recomendaciones[:5]}
