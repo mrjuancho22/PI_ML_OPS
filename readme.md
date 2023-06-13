@@ -133,7 +133,7 @@ Retorno:
 
 # Video
 
-Con este [link](www.youtube.com) podrás ver un video donde se muestra el funcionamiento de la API
+Con este [link](https://www.youtube.com/watch?v=yUuy5XFd7ug) podrás ver un video donde se muestra el funcionamiento de la API
 
 
 # API
