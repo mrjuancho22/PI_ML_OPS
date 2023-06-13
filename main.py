@@ -27,7 +27,7 @@ def cantidad_filmaciones_mes(mes:str):
     return {'mes':mes, 'cantidad':cantidad}
 
 
-@app.get('/cantidad_filmaciones_dia{dia}')
+@app.get('/cantidad_filmaciones_dia/{dia}')
 def cantidad_filmaciones_dia(dia:str):
     '''Se ingresa el dia y la funcion retorna la cantidad de peliculas que se estrebaron ese dia historicamente'''
     dia = dia.lower()
