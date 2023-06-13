@@ -128,7 +128,7 @@ def recomendacion(titulo:str):
     '''Ingresas un nombre de pelicula y te recomienda las similares en una lista'''
     #se hace de la primera letra de lo ingresado mayuscula si es que ya no lo está. Esto por que todos los datos del df están con la letra inicial mayuscula, de esta forma, la busqueda se dara 
     #bien
-    titulo = titulo.capitalize()
+    titulo = titulo.title()
     #se crea un clon del df original con las columnas genres, title, vote_average, popularity, para que la funcion recomendacion no consuma demasiados recursos
     df_b = df_movies.loc[:, ['belongs_to_collection','genres','title','vote_average','popularity']].copy()
 
