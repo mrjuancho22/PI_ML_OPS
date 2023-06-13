@@ -25,42 +25,46 @@ def home():
 @app.get('/cantidad_filmaciones_mes/{mes}')
 def cantidad_filmaciones_mes(mes:str):
     '''Se ingresa el mes y la funcion retorna la cantidad de peliculas que se estrenaron ese mes historicamente'''
+    # se hace del string mes en minusculas, en caso de que se haya ingresado de una forma erronea
     mes = mes.lower()
+    # se convierte los datos de la columna release_date en tipo fecha
     df_movies.release_date = pd.to_datetime(df_movies.release_date)
-    def mes_a_numero (mes):
+    
+    #se genera una función donde se ingresa un string de mes y se devuelve el numero que corresponde
+    def mes_a_numero (mes:str):
         meses = {
             'enero':1,'febrero':2,'marzo':3,'abril':4,
             'mayo':5,'junio':6,'julio':7,'agosto':8,
             'septiembre':9,'octubre':10,'noviembre':11,'diciembre':12
             }
         return meses[mes]
+    #aquí se aplica la función y se cuenta los items dados. se compara con el string ingresado para solo contar aquél que se solicito
     cantidad = df_movies.release_date.loc[df_movies.release_date.dt.month == mes_a_numero(mes)].count().item()
+    #se muestran los resultados
     return {'mes':mes, 'cantidad':cantidad}
 
 
 @app.get('/cantidad_filmaciones_dia/{dia}')
 def cantidad_filmaciones_dia(dia:str):
     '''Se ingresa el dia y la funcion retorna la cantidad de peliculas que se estrebaron ese dia historicamente'''
-    dia = dia.lower()
-    df_movies.release_date = pd.to_datetime(df_movies.release_date, errors= 'coerce')
+    dia = dia.lower()  # Convertir el día ingresado a minúsculas
+    df_movies.release_date = pd.to_datetime(df_movies.release_date, errors= 'coerce')  # Convertir la columna 'release_date' a formato de fecha y hora
     def dia_numero(dia_numero):
-        dias = {'lunes' : 0,'martes' : 1, 'miercoles': 2, 'jueves':3, 'viernes':4, 'sabado':5, 'domingo':6}
+        dias = {'lunes' : 0,'martes' : 1, 'miercoles': 2, 'jueves':3, 'viernes':4, 'sabado':5, 'domingo':6}  # Diccionario que mapea los días a números
         return dias[dia_numero]
-    cantidad = df_movies.release_date.loc[df_movies.release_date.dt.weekday == dia_numero(dia)].count()
-    return {'dia' : dia , 'cantidad' : cantidad.item()}
-
+    cantidad = df_movies.release_date.loc[df_movies.release_date.dt.weekday == dia_numero(dia)].count()  # Contar la cantidad de películas cuya fecha de lanzamiento coincide con el día ingresado
+    return {'dia' : dia , 'cantidad' : cantidad.item()}  # Devolver el día y la cantidad de filmaciones
 
 
 @app.get('/score_titulo/{titulo}')
 def score_titulo(titulo:str):
     '''Se ingresa el título de una filmación esperando como respuesta el título, el año de estreno y el score'''
-    titulo = titulo.lower()
-    respuesta = df_movies[['title','release_year','popularity']].loc[df_movies.title.apply(lambda x : x.lower()) == titulo]
-    titulo = str(respuesta['title'].values[0])
-    anio = int(respuesta['release_year'].values[0])
-    popularidad = float(respuesta['popularity'].values[0])
-    return {'titulo':titulo, 'anio':anio, 'popularidad':popularidad}
-
+    titulo = titulo.lower()  # Convertir el título ingresado a minúsculas
+    respuesta = df_movies[['title','release_year','popularity']].loc[df_movies.title.apply(lambda x : x.lower()) == titulo]  # Filtrar el dataframe 'df_movies' por el título ingresado
+    titulo = str(respuesta['title'].values[0])  # Obtener el título de la respuesta
+    anio = int(respuesta['release_year'].values[0])  # Obtener el año de estreno de la respuesta
+    popularidad = float(respuesta['popularity'].values[0])  # Obtener la popularidad de la respuesta
+    return {'titulo':titulo, 'anio':anio, 'popularidad':popularidad}  # Devolver el título, el año de estreno y la popularidad
 
 
 @app.get('/votos_titulo/{titulo}')
@@ -68,49 +72,46 @@ def votos_titulo(titulo:str):
     '''Se ingresa el título de una filmación esperando como respuesta el título, la cantidad de votos y el valor promedio de las votaciones. 
     La misma variable deberá de contar con al menos 2000 valoraciones, 
     caso contrario, debemos contar con un mensaje avisando que no cumple esta condición y que por ende, no se devuelve ningun valor.'''
-    respuesta = df_movies[['title','release_year','vote_count','vote_average']].loc[df_movies.title.apply(lambda x : x.lower()) == titulo.lower()]
-    titulo = str(respuesta['title'].values[0])
-    anio = int(respuesta['release_year'].values[0])
-    voto_total = int(respuesta['vote_count'].values[0])
-    voto_promedio = float(respuesta['vote_average'].values[0])
-    if respuesta['vote_count'].values[0] <2000:
-        return 'La variable ingresada no cumple con la condición necesaria de tener más de 2000 valoraciones'
+    respuesta = df_movies[['title','release_year','vote_count','vote_average']].loc[df_movies.title.apply(lambda x : x.lower()) == titulo.lower()]  # Filtrar el dataframe 'df_movies' por el título ingresado
+    titulo = str(respuesta['title'].values[0])  # Obtener el título de la respuesta
+    anio = int(respuesta['release_year'].values[0])  # Obtener el año de estreno de la respuesta
+    voto_total = int(respuesta['vote_count'].values[0])  # Obtener la cantidad total de votos de la respuesta
+    voto_promedio = float(respuesta['vote_average'].values[0])  # Obtener el valor promedio de las votaciones de la respuesta
+    if respuesta['vote_count'].values[0] <2000:  # Verificar si la cantidad de votos es menor a 2000
+        return 'La variable ingresada no cumple con la condición necesaria de tener más de 2000 valoraciones'  # Devolver un mensaje de error
     else:
-        return {'titulo':titulo, 'anio':anio, 'voto_total':voto_total, 'voto_promedio':voto_promedio}
-
+        return {'titulo':titulo, 'anio':anio, 'voto_total':voto_total, 'voto_promedio':voto_promedio}  # Devolver el título, el año de estreno, la cantidad de votos y el valor promedio de las votaciones
 
 
 @app.get('/get_actor/{nombre_actor}')
 def get_actor(nombre_actor:str):
     '''Se ingresa el nombre de un actor que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. 
-    Además, la cantidad de películas que en las que ha participado y el promedio de retorno'''
-    
-    resultado = df_credits[df_credits['cast'].apply(lambda x : nombre_actor.lower().rstrip() in "".join(x.tolist()).lower())]
-    cantidad_filmaciones = resultado.shape[0]
-    lista_proyectos = resultado.id.tolist()
-    proyectos = df_movies[df_movies['id'].isin(lista_proyectos)]
-    retorno_total = sum(proyectos.revenue.tolist())
-    retorno_promedio = round(retorno_total/cantidad_filmaciones)
-    return {'actor':nombre_actor, 'cantidad_filmaciones':cantidad_filmaciones, 'retorno_total':retorno_total, 'retorno_promedio':retorno_promedio}
-
+    Además, la cantidad de películas en las que ha participado y el promedio de retorno'''
+    resultado = df_credits[df_credits['cast'].apply(lambda x : nombre_actor.lower().rstrip() in "".join(x.tolist()).lower())]  # Filtrar el dataframe 'df_credits' por el nombre del actor ingresado
+    cantidad_filmaciones = resultado.shape[0]  # Obtener la cantidad de filmaciones en las que ha participado el actor
+    lista_proyectos = resultado.id.tolist()  # Obtener una lista de los IDs de los proyectos en los que ha participado el actor
+    proyectos = df_movies[df_movies['id'].isin(lista_proyectos)]  # Filtrar el dataframe 'df_movies' por los IDs de los proyectos
+    retorno_total = sum(proyectos.revenue.tolist())  # Calcular el retorno total sumando los ingresos (revenue) de los proyectos
+    retorno_promedio = round(retorno_total/cantidad_filmaciones)  # Calcular el retorno promedio dividiendo el retorno total entre la cantidad de filmaciones
+    return {'actor':nombre_actor, 'cantidad_filmaciones':cantidad_filmaciones, 'retorno_total':retorno_total, 'retorno_promedio':retorno_promedio}  # Devolver el nombre del actor, la cantidad de filmaciones, el retorno total y el retorno promedio
 
 
 @app.get('/get_director/{nombre_director}')
 def get_director(nombre_director:str):
     ''' Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. 
     Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma.'''
-    condicion = df_credits['crew'].apply(lambda x : {'name':nombre_director.title(),'job' : 'Director'} in x)
-    resultado = df_credits[condicion]
-
-    lista_proyectos = resultado.id.tolist()
-    proyectos = df_movies[df_movies['id'].isin(lista_proyectos)]
-
-    revenue_pelicula = proyectos.revenue.tolist()
-    retorno_pelicula = proyectos['return'].tolist()
-    budget_pelicula = proyectos.budget.tolist()
-    retorno_total_director = sum(revenue_pelicula)
-    peliculas = proyectos.title.tolist()
-    anio_peliculas = [fecha.strftime('%Y-%m-%d') for fecha in proyectos.release_date.dt.date]
+    condicion = df_credits['crew'].apply(lambda x : {'name':nombre_director.title(),'job' : 'Director'} in x)  # Verificar si el nombre del director y su trabajo ('Director') están presentes en la lista de miembros del equipo de cada película
+    resultado = df_credits[condicion]  # Filtrar el dataframe 'df_credits' por la condición
+    
+    lista_proyectos = resultado.id.tolist()  # Obtener una lista de los IDs de los proyectos dirigidos por el director
+    proyectos = df_movies[df_movies['id'].isin(lista_proyectos)]  # Filtrar el dataframe 'df_movies' por los IDs de los proyectos
+    
+    revenue_pelicula = proyectos.revenue.tolist()  # Obtener una lista de los ingresos (revenue) de las películas
+    retorno_pelicula = proyectos['return'].tolist()  # Obtener una lista de los retornos individuales de las películas
+    budget_pelicula = proyectos.budget.tolist()  # Obtener una lista de los presupuestos (budget) de las películas
+    retorno_total_director = sum(revenue_pelicula)  # Calcular el retorno total del director sumando los ingresos (revenue) de las películas
+    peliculas = proyectos.title.tolist()  # Obtener una lista de los títulos de las películas
+    anio_peliculas = [fecha.strftime('%Y-%m-%d') for fecha in proyectos.release_date.dt.date]  # Obtener una lista de las fechas de lanzamiento de las películas
     
     return {
         'director':nombre_director, 
@@ -125,7 +126,9 @@ def get_director(nombre_director:str):
 @app.get('/recomendacion/{titulo}')
 def recomendacion(titulo:str):
     '''Ingresas un nombre de pelicula y te recomienda las similares en una lista'''
-
+    #se hace de la primera letra de lo ingresado mayuscula si es que ya no lo está. Esto por que todos los datos del df están con la letra inicial mayuscula, de esta forma, la busqueda se dara 
+    #bien
+    titulo = titulo.capitalize()
     #se crea un clon del df original con las columnas genres, title, vote_average, popularity, para que la funcion recomendacion no consuma demasiados recursos
     df_b = df_movies.loc[:, ['belongs_to_collection','genres','title','vote_average','popularity']].copy()
 
