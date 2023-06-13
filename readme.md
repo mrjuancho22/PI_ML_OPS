@@ -4,6 +4,10 @@ Este proyecto de Data Science se enfoca en el análisis de datos relacionados co
 
 En este proyecto encontrarás:
 
+- Carpeta .venv:
+
+    En esta carpeta se encuentran los archivos necesarios para que "corra" el proyecto, desde librerías, scripts etc. En el archivo requirements.txt, encontraras qué librerías se usaron para el proyecto en conjunto a sus versiones.
+
 - Carpeta datasets:
 
     En esta se hayan las fuentes de información que se usaron para la API, se encuentran 2 archivos parquet que son archivos limpios después del ETL del proyecto y 1 archivo csv, éste último siendo los datos de tipo RAW que se suministraron al comienzo del proyecto.
@@ -127,4 +131,10 @@ Retorno:
 # Video
 
 Con este [link](www.youtube.com) podrás ver un video donde se muestra el funcionamiento de la API
+
+
+# API
+
+Puedes ingresar a la API en este [link](https://proyecto-individual-1-upjh.onrender.com), esta está en Render. solo para que sepan jajaja
+
 
