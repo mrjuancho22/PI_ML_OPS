@@ -8,7 +8,17 @@ app = FastAPI()
 
 df_movies = pd.read_parquet('datasets/clean_movies_dataset.parquet')
 
-
+@app.get('/')
+def home():
+    return {'message': 
+    r"""¡Bienvenido a la API del proyecto!, estas son las posibles configuraciones: \n 
+    /cantidad_filmaciones_mes/{mes} \n 
+    /cantidad_filmaciones_dia/{dia} \n
+    /score_titulo/{titulo} \n
+    /votos_titulo/{titulo} \n
+    /get_actor/{nombre_actor} \n 
+    /get_director/{nombre_director} \n
+    /recomendacion/{titulo} \n"""}
 
 
 @app.get('/cantidad_filmaciones_mes/{mes}')
