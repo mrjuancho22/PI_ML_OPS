@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 app = FastAPI()
 
 df_movies = pd.read_parquet('datasets/clean_movies_dataset.parquet')
-df_credits = pd.read_parquet('datasets/credits.parquet')
+
 
 
 
@@ -85,6 +85,7 @@ def get_actor(nombre_actor:str):
 
 @app.get('/get_director/{nombre_director}')
 def get_director(nombre_director:str):
+    df_credits = pd.read_parquet('datasets/credits.parquet')
     ''' Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. 
     Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma.'''
     condicion1 = df_credits['crew'].str.contains(r'\b{}\b'.format(nombre_director.title()), regex=True)
