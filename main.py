@@ -84,7 +84,8 @@ def votos_titulo(titulo:str):
 def get_actor(nombre_actor:str):
     '''Se ingresa el nombre de un actor que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. 
     Además, la cantidad de películas que en las que ha participado y el promedio de retorno'''
-    resultado = df_credits[df_credits['cast'].apply(lambda x : nombre_actor.lower().rstrip() in x.lower())]
+    
+    resultado = df_credits[df_credits['cast'].apply(lambda x : nombre_actor.lower().rstrip() in "".join(x.tolist()).lower())]
     cantidad_filmaciones = resultado.shape[0]
     lista_proyectos = resultado.id.tolist()
     proyectos = df_movies[df_movies['id'].isin(lista_proyectos)]
@@ -98,9 +99,8 @@ def get_actor(nombre_actor:str):
 def get_director(nombre_director:str):
     ''' Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. 
     Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma.'''
-    condicion1 = df_credits['crew'].str.contains(r'\b{}\b'.format(nombre_director.title()), regex=True)
-    condicion2 = df_credits['crew'].str.contains(r'\b{}\b'.format('Director'), regex=True)
-    resultado = df_credits[condicion1 & condicion2]
+    condicion = df_credits['crew'].apply(lambda x : {'name':nombre_director.title(),'job' : 'Director'} in x)
+    resultado = df_credits[condicion]
 
     lista_proyectos = resultado.id.tolist()
     proyectos = df_movies[df_movies['id'].isin(lista_proyectos)]

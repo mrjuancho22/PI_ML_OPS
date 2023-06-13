@@ -29,13 +29,16 @@ En este proyecto encontrarás:
     Documento hecho en jupyter notebook del analisis exploratorio hecho para el sistema de recomendaciones
 
 
-- Documento etl:
+- Documentos etl:
 
-    Documento hecho en python con el procedimiento que se realizo al documento movies_dataset.csv
+    Documentos hecho en python con el procedimiento de limpieza que se realizo al documento movies_dataset.csv y credits.csv, cada archivo tiene el nombre del documento al cual le hizo limpieza. EL documento de movies, realiza los procedimientos descritos en el readme original con las metricas del proyecto; mientras que el de credits, lo hice a por labor propia para resumir la información de este, los cambios realizados son:
+    - la columna cast, ahora solo contiene una lista por fila de los nombre de los actores participes en los proyectos
+    - la columna crew, ahora solo contiene el nombre y trabajo del staff relacionado a la pelicula
+    - el id del proyecto no sufrió cambios
 
 - Documento main:
 
-    Documento hecho en python que contiene todo lo relacionado a la API
+    Documento hecho en python que contiene todo lo relacionado a la API, aquí se puede encontrar todas las funciones de la API, 
 
 - Documento requeriments:
 
