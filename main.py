@@ -12,14 +12,14 @@ df_credits = pd.read_parquet('datasets/credits.parquet')
 @app.get('/')
 def home():
     return {'message': 
-    r"""¡Bienvenido a la API del proyecto!, estas son las posibles configuraciones:  
-    /cantidad_filmaciones_mes/{mes}  
-    /cantidad_filmaciones_dia/{dia} 
-    /score_titulo/{titulo} 
-    /votos_titulo/{titulo} 
-    /get_actor/{nombre_actor} 
-    /get_director/{nombre_director} 
-    /recomendacion/{titulo} """}
+    """¡Bienvenido a la API del proyecto!, estas son las posibles configuraciones:""",  
+    'cantidad de peliculas por mes' : r"""/cantidad_filmaciones_mes/{mes}""" , 
+    'cantidad de peliculas por dia': r"""/cantidad_filmaciones_dia/{dia} """,
+    'año y score por titulo' : r"""/score_titulo/{titulo} """,
+    'cantidad de votos y promedio de votos por titulo':r"""/votos_titulo/{titulo} """,
+    'exito del actor a tráves de retorno, promedio de ganancias y cantidad de proyectos participados':r"""/get_actor/{nombre_actor}""", 
+    'historial de un director, peliculas hechas con sus fechas de estreno, costos, ganancias, etc': r"""/get_director/{nombre_director} """,
+    'sistema de recomendaciones de pelicula': r"""/recomendacion/{titulo} """}
 
 
 @app.get('/cantidad_filmaciones_mes/{mes}')
