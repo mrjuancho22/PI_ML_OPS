@@ -41,7 +41,7 @@ def cantidad_filmaciones_dia(dia:str):
 
 
 @app.get('/score_titulo/{titulo}')
-def score_titulo(titulo:str):
+def score_titulo(titulo_de_la_filmacion:str):
     '''Se ingresa el título de una filmación esperando como respuesta el título, el año de estreno y el score'''
     titulo_de_la_filmacion = titulo_de_la_filmacion.lower()
     respuesta = df_movies[['title','release_year','popularity']].loc[df_movies.title.apply(lambda x : x.lower()) == titulo_de_la_filmacion]
